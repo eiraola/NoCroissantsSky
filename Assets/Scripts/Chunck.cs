@@ -30,8 +30,12 @@ public class Chunck
                     int worldY = (int)(y + chunck.transform.position.y);
                     int worldZ = (int)(z + chunck.transform.position.z);
 
-                    if (worldY <= Utils.GenerateHeight(worldX, worldZ))
+                    if (worldY <= Utils.GenerateStoneHeight(worldX, worldZ))
+                        chunckData[x, y, z] = new Block(Block.BlockType.STONE, pos, chunck.gameObject, this);
+                    else if (worldY < Utils.GenerateHeight(worldX, worldZ))
                         chunckData[x, y, z] = new Block(Block.BlockType.DIRT, pos, chunck.gameObject, this);
+                    else if (worldY == Utils.GenerateHeight(worldX, worldZ) )
+                        chunckData[x, y, z] = new Block(Block.BlockType.GRASS, pos, chunck.gameObject, this);
                     else
                     chunckData[x, y, z] = new Block(Block.BlockType.AIR, pos, chunck.gameObject, this);
                    

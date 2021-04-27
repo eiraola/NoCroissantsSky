@@ -9,6 +9,11 @@ public class Utils
     static int octaves = 6;
     static float persistence = 0.5f;
 
+    public static int GenerateStoneHeight(float x, float y)
+    {
+        float height = Map(0, maxHeight - 20, 0, 1, fBM(x * smooth*2, y * smooth * 2, octaves+1, persistence));
+        return (int)height;
+    }
     public static int GenerateHeight(float x, float y) {
         float height = Map(0, maxHeight, 0, 1, fBM(x * smooth, y* smooth, octaves, persistence));
         return (int)height;
