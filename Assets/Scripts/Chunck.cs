@@ -29,9 +29,16 @@ public class Chunck
                     int worldX = (int)(x + chunck.transform.position.x);
                     int worldY = (int)(y + chunck.transform.position.y);
                     int worldZ = (int)(z + chunck.transform.position.z);
-
-                    if (worldY <= Utils.GenerateStoneHeight(worldX, worldZ))
-                        chunckData[x, y, z] = new Block(Block.BlockType.STONE, pos, chunck.gameObject, this);
+                    if (Utils.fBM3D(worldX, worldY, worldZ, 2.1f, 6) < 0.40f)
+                        chunckData[x, y, z] = new Block(Block.BlockType.AIR, pos, chunck.gameObject, this);
+                    else if (worldY <= Utils.GenerateStoneHeight(worldX, worldZ))
+                        if (Utils.fBM3D(worldX, worldY, worldZ, 0.001f, 1) < 0.2f) {
+                            chunckData[x, y, z] = new Block(Block.BlockType.DIAMOND, pos, chunck.gameObject, this);
+                        } 
+                        else {
+                            chunckData[x, y, z] = new Block(Block.BlockType.STONE, pos, chunck.gameObject, this);
+                        }
+                            
                     else if (worldY < Utils.GenerateHeight(worldX, worldZ))
                         chunckData[x, y, z] = new Block(Block.BlockType.DIRT, pos, chunck.gameObject, this);
                     else if (worldY == Utils.GenerateHeight(worldX, worldZ) )
