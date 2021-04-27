@@ -25,8 +25,13 @@ public class Chunck
                 {
                     
                     Vector3 pos = new Vector3(x, y, z);
-                    if (Random.Range(0, 100) < 50)
-                    chunckData[x, y, z] = new Block(Block.BlockType.DIRT, pos, chunck.gameObject, this);
+
+                    int worldX = (int)(x + chunck.transform.position.x);
+                    int worldY = (int)(y + chunck.transform.position.y);
+                    int worldZ = (int)(z + chunck.transform.position.z);
+
+                    if (worldY <= Utils.GenerateHeight(worldX, worldZ))
+                        chunckData[x, y, z] = new Block(Block.BlockType.DIRT, pos, chunck.gameObject, this);
                     else
                     chunckData[x, y, z] = new Block(Block.BlockType.AIR, pos, chunck.gameObject, this);
                    
