@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : MonoBehaviour
+public class Block 
 {
     enum CubeSide { BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK };
     public enum BlockType { GRASS, DIRT, STONE, AIR };
     BlockType bType;
+    Chunck owner;
     public bool isSolid;
     GameObject parent;
     public Material cubeMaterial;
@@ -23,11 +24,11 @@ public class Block : MonoBehaviour
                              new Vector2(0.0f, 0.9375f), new Vector2(0.0625f, 0.9375f)},
     };
     // Start is called before the first frame update
-    public Block(BlockType b, Vector3 pos, GameObject p, Material c) {
+    public Block(BlockType b, Vector3 pos, GameObject p, Chunck c) {
         bType = b;
         parent = p;
         position = pos;
-        cubeMaterial = c;
+        owner = c;
         isSolid = true;
         if (bType == BlockType.AIR) {
             isSolid = false;
@@ -178,8 +179,40 @@ public class Block : MonoBehaviour
         if (!HasSolidNeighbour((int)position.x, (int)position.y, (int)position.z - 1))
             CreateQuad(CubeSide.BACK);
     }
+    int ConverBlokIndexToLocal(int i) {
+        if (i == -1)
+            i = World.chunkSize - 1;
+        else if (i == World.chunkSize)
+            i = 0;
+        return i;
+    }
     public bool HasSolidNeighbour(int x, int y, int z) {
-        Block[,,] chuncks = parent.GetComponent<Chunck>().chunckData;
+
+        Block[,,] chuncks;
+        if (x < 0 || x >= World.chunkSize ||
+            y < 0 || y >= World.chunkSize ||
+            z < 0 || z >= World.chunkSize)
+        {
+            Vector3 neighbourChunkPos = this.parent.transform.position + new Vector3((x - (int)position.x) * World.chunkSize,
+                                                                                       (y - (int)position.y) * World.chunkSize,
+                                                                                       (z - (int)position.z) * World.chunkSize);
+            string nName = World.BuildChunkName(neighbourChunkPos);
+            x = ConverBlokIndexToLocal(x);
+            y = ConverBlokIndexToLocal(y);
+            z = ConverBlokIndexToLocal(z);
+
+            Chunck nChunk;
+            if (World.chunks.TryGetValue(nName, out nChunk))
+            {
+                chuncks = nChunk.chunckData;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+            chuncks = owner.chunckData;
         try
         {
             return chuncks[x, y, z].isSolid;

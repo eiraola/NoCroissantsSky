@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 1948012853}
   - component: {fileID: 1948012852}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Chunck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -385,10 +385,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1948012851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6f7e2e4e7da3e409b9c4e61e5be6a3, type: 3}
+  m_Script: {fileID: 11500000, guid: dfd9ea6dcc56ff646ab8bb60ff3bfecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubeMaterial: {fileID: 2100000, guid: 195d6d1555c6228469bce3bb7a505846, type: 2}
+  textureAtlas: {fileID: 2100000, guid: 195d6d1555c6228469bce3bb7a505846, type: 2}
 --- !u!4 &1948012853
 Transform:
   m_ObjectHideFlags: 0
