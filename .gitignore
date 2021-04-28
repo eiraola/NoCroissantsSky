@@ -58,3 +58,30 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+Assets/First person controller.meta
+Assets/First person controller/Components.meta
+Assets/First person controller/Components/Crouch.cs
+Assets/First person controller/Components/Crouch.cs.meta
+Assets/First person controller/Components/GroundCheck.cs
+Assets/First person controller/Components/GroundCheck.cs.meta
+Assets/First person controller/Components/Jump.cs
+Assets/First person controller/Components/Jump.cs.meta
+Assets/First person controller/Components/Zoom.cs
+Assets/First person controller/Components/Zoom.cs.meta
+Assets/First person controller/Demo & documentation.meta
+Assets/First person controller/Demo & documentation/Demo FP controller bare.unity
+Assets/First person controller/Demo & documentation/Demo FP controller bare.unity.meta
+Assets/First person controller/Demo & documentation/Demo FP controller full.unity
+Assets/First person controller/Demo & documentation/Demo FP controller full.unity.meta
+Assets/First person controller/Demo & documentation/readme.pdf
+Assets/First person controller/Demo & documentation/readme.pdf.meta
+Assets/First person controller/First person controller bare.prefab
+Assets/First person controller/First person controller bare.prefab.meta
+Assets/First person controller/First person controller full.prefab
+Assets/First person controller/First person controller full.prefab.meta
+Assets/First person controller/FirstPersonLook.cs
+Assets/First person controller/FirstPersonLook.cs.meta
+Assets/First person controller/FirstPersonMovement.cs
+Assets/First person controller/FirstPersonMovement.cs.meta
+*.png
+*.meta

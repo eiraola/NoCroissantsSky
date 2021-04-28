@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Chunck 
 {
     public Material cubeMaterial;
     public Block[,,] chunckData;
     public GameObject chunck;
+    public enum ChunkStatus {DRAW, DONE, KEEP};
+    public ChunkStatus status;
 
     public Chunck(Vector3 position, Material c) {
         chunck = new GameObject(World.BuildChunkName(position));
@@ -45,6 +48,7 @@ public class Chunck
                         chunckData[x, y, z] = new Block(Block.BlockType.GRASS, pos, chunck.gameObject, this);
                     else
                     chunckData[x, y, z] = new Block(Block.BlockType.AIR, pos, chunck.gameObject, this);
+                    status = ChunkStatus.DRAW;
                    
                 }
             }
@@ -66,6 +70,9 @@ public class Chunck
 
         }
         CombineQuads();
+        MeshCollider collider = chunck.gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
+        chunck.gameObject.AddComponent<MeshCollider>();
+        collider.sharedMesh = chunck.transform.GetComponent<MeshFilter>().mesh;
     }
     void CombineQuads()
     {
