@@ -85,3 +85,4 @@ Assets/First person controller/FirstPersonMovement.cs
 Assets/First person controller/FirstPersonMovement.cs.meta
 *.png
 *.meta
+Assets/Scripts/CoroutineQueue.cs
