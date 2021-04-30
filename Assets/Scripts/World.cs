@@ -87,6 +87,7 @@ public class World : MonoBehaviour
             Chunck c;
             if (chunks.TryGetValue(n, out c)) {
                 Destroy(c.chunck);
+                c.save();
                 chunks.TryRemove(n, out c);
                 yield return null ;
             }
@@ -102,6 +103,8 @@ public class World : MonoBehaviour
     }
     void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 30;
         Vector3 ppos = player.transform.position;
         player.transform.position = new Vector3(ppos.x, Utils.GenerateHeight(ppos.x, ppos.z) + 1, ppos.z);
         lastPosBuild = player.transform.position;

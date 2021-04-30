@@ -7,7 +7,7 @@ public class Block
 {
     enum CubeSide { BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK };
     public enum BlockType { GRASS, DIRT, STONE, DIAMOND, AIR };
-    BlockType bType;
+    public BlockType bType;
     Chunck owner;
     public bool isSolid;
     GameObject parent;
@@ -36,6 +36,17 @@ public class Block
             isSolid = false;
         }
        
+    
+    }
+    public void setType(BlockType b) {
+        bType = b;
+        if (bType == BlockType.AIR)
+        {
+            isSolid = false;
+        }
+        else {
+            isSolid = true;
+        }
     
     }
     void CreateQuad(CubeSide side)
