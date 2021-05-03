@@ -24,14 +24,19 @@ public class BlockInteraction : MonoBehaviour
                 int x = (int)(Mathf.Round(hitBlok.x) - hit.collider.gameObject.transform.position.x);
                 int y = (int)(Mathf.Round(hitBlok.y) - hit.collider.gameObject.transform.position.y);
                 int z = (int)(Mathf.Round(hitBlok.z) - hit.collider.gameObject.transform.position.z);
+
+                Chunck hitc;
+                if (World.chunks.TryGetValue(hit.collider.gameObject.name, out hitc) && hitc.chunckData[x, y, z].HitBlock()) {
+
+                    print("actualizar");
                
                 List<string> updates = new List<string>();
 
-                float thisChunkx = hit.collider.gameObject.transform.position.x;
-                float thisChunky = hit.collider.gameObject.transform.position.y;
-                float thisChunkz = hit.collider.gameObject.transform.position.z;
+                float thisChunkx = hitc.chunck.transform.position.x;
+                float thisChunky = hitc.chunck.transform.position.y;
+                float thisChunkz = hitc.chunck.transform.position.z;
 
-                updates.Add(hit.collider.gameObject.name);
+                //updates.Add(hit.collider.gameObject.name);
 
                 if (x == 0)
                     updates.Add(World.BuildChunkName(new Vector3(thisChunkx - World.chunkSize, thisChunky, thisChunkz)));
@@ -60,12 +65,12 @@ public class BlockInteraction : MonoBehaviour
                         c.DrawChunk();
                     }
                 }
+                }
 
 
 
 
 
-                
             }
         }
         

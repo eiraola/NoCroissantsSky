@@ -6,9 +6,12 @@ using UnityEngine;
 public class Block 
 {
     enum CubeSide { BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK };
-    public enum BlockType { GRASS, DIRT, STONE, DIAMOND, AIR };
+    public enum BlockType { GRASS, DIRT, STONE, DIAMOND, NOCRACK, CRACK1, CRACK2, CRACK3, CRACK4, AIR };
     public BlockType bType;
     Chunck owner;
+    public BlockType health;
+    public int currentHealth;
+    public int[] blockHealthMax = { 4, 4, 4, 4, 0, 0, 0, 0 , 0, 0 };
     public bool isSolid;
     GameObject parent;
     public Material cubeMaterial;
@@ -24,6 +27,16 @@ public class Block
                              new Vector2(0.0f, 0.9375f), new Vector2(0.0625f, 0.9375f)},
         /*Diamond*/          { new Vector2(0.125f, 0.75f), new Vector2(0.1875f, 0.75f),
                              new Vector2(0.125f, 0.8125f), new Vector2(0.1875f, 0.8125f)},
+         /*NOCRACK*/         { new Vector2(0.6875f, 0.0f), new Vector2(0.75f, 0.0f),
+                             new Vector2(0.6875f, 0.0625f), new Vector2(0.75f, 0.0625f)},
+         /*CRACK1*/          { new Vector2(0.0f, 0.0f), new Vector2(0.0625f, 0.0f),
+                             new Vector2(0.0f, 0.0625f), new Vector2(0.0625f, 0.0625f)},
+         /*CRACK2*/          { new Vector2(0.0625f, 0.0f), new Vector2(0.125f, 0.0f),
+                             new Vector2(0.0625f, 0.0625f), new Vector2(0.125f, 0.0625f)},
+         /*CRACK3*/          { new Vector2(0.125f, 0.0f), new Vector2(0.1875f, 0.0f),
+                             new Vector2(0.125f, 0.0625f), new Vector2(0.1875f, 0.0625f)},
+         /*CRACK4*/          { new Vector2(0.1875f, 0.0f), new Vector2(0.25f, 0.0f),
+                             new Vector2(0.1875f, 0.0625f), new Vector2(0.25f, 0.0625f)},
     };
     // Start is called before the first frame update
     public Block(BlockType b, Vector3 pos, GameObject p, Chunck c) {
@@ -33,10 +46,28 @@ public class Block
         owner = c;
         isSolid = true;
         if (bType == BlockType.AIR) {
+            
             isSolid = false;
         }
+        health = BlockType.NOCRACK;
+        currentHealth = blockHealthMax[(int)bType];
        
     
+    }
+
+    public bool HitBlock() { 
+        if (currentHealth == -1) return false;
+        currentHealth--;
+        health++;
+        if (currentHealth <= 0) {
+            bType = BlockType.AIR;
+            isSolid = false;
+            health = BlockType.NOCRACK;
+            owner.Redraw();
+            return true;
+        }
+        owner.Redraw();
+        return false;
     }
     public void setType(BlockType b) {
         bType = b;
@@ -58,6 +89,7 @@ public class Block
         Vector3[] normals = new Vector3[4];
         Vector2[] uvs = new Vector2[4];
         int[] triangles = new int[6];
+        List<Vector2> suvs = new List<Vector2>();
         Vector2 uv00 = new Vector2(0.0f, 0.0f);
         Vector2 uv10 = new Vector2(1.0f, 0.0f);
         Vector2 uv01 = new Vector2(0.0f, 1.0f);
@@ -83,6 +115,11 @@ public class Block
             uv01 = blockUVs[(int)bType + 1, 2];
             uv11 = blockUVs[(int)bType + 1, 3];
         }
+
+        suvs.Add(blockUVs[(int)(health + 1), 3]);
+        suvs.Add(blockUVs[(int)(health + 1), 2]);
+        suvs.Add(blockUVs[(int)(health + 1), 0]);
+        suvs.Add(blockUVs[(int)(health + 1), 1]);
 
 
         Vector3 p0 = new Vector3(-0.5f, -0.5f, 0.5f);
@@ -164,6 +201,7 @@ public class Block
         mesh.vertices = vertices;
         mesh.normals = normals;
         mesh.uv = uvs;
+        mesh.SetUVs(1,suvs);
         mesh.triangles = triangles;
 
         mesh.RecalculateBounds();

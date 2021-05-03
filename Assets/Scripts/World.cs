@@ -97,6 +97,7 @@ public class World : MonoBehaviour
 
     public void BuildNearPlayer() {
         StopCoroutine("BuildRecursiveWorld");
+        toRemove.Clear();
         StartCoroutine(BuildRecursiveWorld((int)(player.transform.position.x / chunkSize),
                                            (int)(player.transform.position.y / chunkSize),
                                            (int)(player.transform.position.z / chunkSize), radius));

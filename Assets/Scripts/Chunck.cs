@@ -21,7 +21,7 @@ class BlockData {
 
     }
 }
-public class Chunck 
+public class Chunck
 {
     public Material cubeMaterial;
     public Block[,,] chunckData;
@@ -31,7 +31,8 @@ public class Chunck
     BlockData bd;
 
     string BuildChunkFileName(Vector3 v) {
-        return Application.persistentDataPath + "/davedata/chunck_" + (int)v.x + "_" + (int)v.y + "_" + (int)v.z + "_" + World.chunkSize + "_" + World.radius + ".dat";
+      
+        return Application.persistentDataPath + "/savedata/chunck_" + (int)v.x + "_" + (int)v.y + "_" + (int)v.z + "_" + World.chunkSize + "_" + World.radius + ".dat";
     }
 
     bool Load() {
@@ -39,6 +40,7 @@ public class Chunck
         if (File.Exists(chunkFile)) {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(chunkFile, FileMode.Open);
+            bd = new BlockData();
             bd = (BlockData)bf.Deserialize(file);
             file.Close();
             return true;
@@ -128,6 +130,13 @@ public class Chunck
         MeshCollider collider = chunck.gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
         chunck.gameObject.AddComponent<MeshCollider>();
         collider.sharedMesh = chunck.transform.GetComponent<MeshFilter>().mesh;
+    }
+    public void Redraw() {
+        GameObject.DestroyImmediate(chunck.GetComponent<MeshFilter>());
+        GameObject.DestroyImmediate(chunck.GetComponent<MeshRenderer>());
+        GameObject.DestroyImmediate(chunck.GetComponent<MeshCollider>());
+        GameObject.DestroyImmediate(chunck.GetComponent<Collider>());
+        DrawChunk();
     }
     void CombineQuads()
     {
